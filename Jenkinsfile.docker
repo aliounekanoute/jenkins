@@ -1,0 +1,32 @@
+pipeline {
+    agent { label 'linux' }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '5'))
+    }
+     environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-credential')
+    }
+    stages {
+        stage('build'){
+            steps {
+                sh "cd jenkins-app"
+                sh "docker build -t aliounekanoute/my-jenkins-app:latest"
+            }
+        }
+        stage('login'){
+            steps{
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --pasword-stdin'
+            }
+        }
+        stage('push'){
+            steps{
+                sh 'docker push aliounekanoute/my-jenkins-app:latest'
+            }
+        }
+    }
+    post {
+        always {
+        sh 'docker logout'
+        }
+    }
+}
