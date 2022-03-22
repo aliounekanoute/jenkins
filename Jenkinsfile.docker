@@ -9,8 +9,7 @@ pipeline {
     stages {
         stage('build'){
             steps {
-                sh "cd jenkins-app"
-                sh "ls -al"
+                sh "cd jenkins/jenkins-app"
                 sh "docker build -t aliounekanoute/my-jenkins-app:latest ."
             }
         }
