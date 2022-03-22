@@ -7,9 +7,13 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credential')
     }
     stages {
+        stage('context'){
+            steps{
+                sh "cd jenkins-app"
+            }
+        }
         stage('build'){
             steps {
-                sh "cd jenkins/jenkins-app"
                 sh "docker build -t aliounekanoute/my-jenkins-app:latest ."
             }
         }
