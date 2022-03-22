@@ -1,6 +1,6 @@
 FROM maven:3.8.4-jdk-11
 RUN mkdir /project
-COPY . /project
+COPY ./jenkins-app/* /project
 
 WORKDIR /project
 
